@@ -2,8 +2,10 @@ package org.evolvedigital.diceroller
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import org.evolvedigital.diceroller.R.id.imageView
+import org.evolvedigital.diceroller.R.id.imageView2
 
 /**
  * This activity allow users to roll a dice and view the result on screen
@@ -17,25 +19,51 @@ class MainActivity : AppCompatActivity() {
 
         val rollButton: Button = findViewById(R.id.button)
         rollButton.setOnClickListener { rollDice() }
+        rollDice()
     }
 
     /**
-     * This is an instance of the first dice
-      */
+     * Roll the dice and update the screen with the result
+     */
     private fun rollDice() {
+        //Creates 2 new dice objects with 6 sides and rolls it
         val dice = Dice(6)
+
+        // Calls the roll function to assign a random number to the dice
         val diceRoll = dice.roll()
-        val resultTextView: TextView = findViewById(R.id.textView)
-        resultTextView.text = diceRoll.toString()
 
-        /**
-         * This is an instance of the second dice
-         */
-        val secondDice = Dice(20)
+        //Updates the screen with the dice roll
+        val diceImage: ImageView = findViewById(imageView)
 
-        val secondDiceRoll = secondDice.roll()
-        val secondResultTextView: TextView = findViewById(R.id.textView2)
-        secondResultTextView.text = secondDiceRoll.toString()
+        // Determine which resource ID is to be used
+        val drawableResource = when (diceRoll) {
+            1 -> (R.drawable.dice_1)
+            2 -> (R.drawable.dice_2)
+            3 -> (R.drawable.dice_3)
+            4 -> (R.drawable.dice_4)
+            5 -> (R.drawable.dice_5)
+            else -> (R.drawable.dice_6)
+        }
+        // Update the imageView with the correct drawable resource file
+        diceImage.setImageResource(drawableResource)
+
+        // Update the content description
+        diceImage.contentDescription = diceRoll.toString()
+
+        // This is a second object of the Dice class
+        val dice1 = Dice(6)
+        val diceRoll1 = dice1.roll()
+        val diceImage1 : ImageView = findViewById(imageView2)
+        val drawableResource1 = when (diceRoll1) {
+            1 -> (R.drawable.dice_1)
+            2 -> (R.drawable.dice_2)
+            3 -> (R.drawable.dice_3)
+            4 -> (R.drawable.dice_4)
+            5 -> (R.drawable.dice_5)
+            else -> (R.drawable.dice_6)
+        }
+        diceImage1.setImageResource(drawableResource1)
+        diceImage1.contentDescription = diceRoll1.toString()
 
     }
 }
